@@ -39,6 +39,7 @@ class Common extends Error
 
         return [200,['token' => $token]];
     }
+    
 
     /** 
      * @api {post} /index.php/home/common/register 注册
