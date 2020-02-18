@@ -19,7 +19,7 @@ class Index extends Error
          if ($total['column'] == 0) {
             return [200,['total'=>0, 'data' => []]];
         }
-        $column = Db::table('zk_column')->where('is_delete',0)->where('pid',0)->field("id,name,sort,template")->order('sort')->select();
+        $column = Db::table('zk_column')->where('is_delete',0)->where('pid',0)->field("id,name,pid,sort,template")->order('sort')->select();
 
         // 参数设置
         $total['admininfo'] = Db::table('zk_admininfo')->where('id',1)->count();
@@ -66,12 +66,12 @@ class Index extends Error
         // 智库视频
         $video = Db::table('zk_content')->where($where)->where('column_id',50)->field("id,title,source,writer,create_time,img_url,video_url")->order(['sort'=>'desc','id'=>'desc'])->page(1,3)->select();
         // 研究观点
-        $viewpoint =  Db::table('zk_column')->where('is_delete',0)->where('pid',2)->field("id,pid,name")->select();
+        $viewpoint =  Db::table('zk_column')->where('is_delete',0)->where('pid',2)->field("id,pid,name,template")->select();
         foreach($viewpoint as &$v){
             $v['content'] = Db::table('zk_content')->where($where)->where('column_id',$v['id'])->field("id,title,source,writer,create_time,img_url")->order(['sort'=>'desc','id'=>'desc'])->page(1,3)->select();
         }
         // 报告厅
-        $report =  Db::table('zk_column')->where('is_delete',0)->where('pid',3)->field("id,pid,name")->select();
+        $report =  Db::table('zk_column')->where('is_delete',0)->where('pid',3)->field("id,pid,name,template")->select();
         foreach($report as &$v){
             $v['content'] = Db::table('zk_content')->where($where)->where('column_id',$v['id'])->field("id,title,source,writer,create_time,img_url")->order(['sort'=>'desc','id'=>'desc'])->page(1,4)->select();
         }
