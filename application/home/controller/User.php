@@ -27,15 +27,24 @@ class User extends Error
 
         $count = Db::table('zk_content')->where($where)->where('id',$id)->count();
 
-        $user_operate = Db::table('zk_content')->where($where)->where('user_id',$id)->order(['sort'=>'desc','id'=>'desc'])->select();
+        $user_operate = Db::table('zk_content')->where($where)->where('user_id',$id)->field("id,title,title_small,source,writer,create_time,img_url,abstract,video_url,url,is_url")->order(['sort'=>'desc','id'=>'desc'])->select();
 
         // 可发稿栏目 研究观点子栏目 pid=2
         $column = Db::table('zk_column')->where('is_delete',0)->where('pid',2)->field("id,name")->select();
 
         // 文稿查看
         $release['unaudited'] = Db::table('zk_content')->where('is_delete',0)->where('user_id',$id)->where('examine',1)->field("id,img_url,title,writer,create_time,abstract")->select();
+        foreach($release['unaudited'] as &$v){
+            $v['create_time'] = date( "Y-m-d",$v['create_time']);
+        }
         $release['adopt'] = Db::table('zk_content')->where('is_delete',0)->where('user_id',$id)->where('examine',2)->field("id,img_url,title,writer,create_time,abstract")->select();
+        foreach($release['adopt'] as &$v){
+            $v['create_time'] = date( "Y-m-d",$v['create_time']);
+        }
         $release['reject'] = Db::table('zk_content')->where('is_delete',0)->where('user_id',$id)->where('examine',3)->field("id,img_url,title,writer,create_time,abstract")->select();
+        foreach($release['reject'] as &$v){
+            $v['create_time'] = date( "Y-m-d",$v['create_time']);
+        }
       
       
         return [200,['userInfo'=>$userInfo,'user_operate'=>$user_operate,'column'=>$column,'release'=>$release]];

@@ -14,17 +14,6 @@ class Index extends Error
     {
         // return [501,'数据'];
         $param = input('post.');
-        // $id = $param['id'];
-        // $pid = $param['pid'];
-
-        // if($id == 0 && $pid == 0){
-        //     $columnName = '首页';
-        // }else if($pid == 0 && $id != 0){
-        //     $columnName =Db::table('zk_column')->where('is_delete',0)->where('id',$id)->value('name');
-        // }else if($pid != 0 && $id != 0){
-        //     $columnName =Db::table('zk_column')->where('is_delete',0)->where('id',$pid)->value('name');
-        // }
-
 
         // 栏目
         $total['column'] = Db::table('zk_column')->where('is_delete',0)->where('pid',0)->count();

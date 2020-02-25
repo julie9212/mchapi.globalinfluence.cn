@@ -4,7 +4,7 @@ use think\Db;
 
 class Models extends Error
 {
-	/** 
+    /** 
      * @api {post} /index.php/home/models/list  导航
      * @param int  
      * 
@@ -87,5 +87,26 @@ class Models extends Error
         $info = Db::table('zk_content')->where('is_delete',0)->where('examine',2)->where('column_id',25)->field("id,title,source,writer,create_time,img_url,abstract,content")->find(); 
         return [200 , ['info'=>$info]];
     }
+
+    /** 
+     * @api {post} /index.php/home/models/insertform  添加表单
+     * @return array
+     */
+    public function insertFormApi()
+    {
+        $param = input('post.');
+        $param['create_time'] = time();
+        $param['is_delete'] = 0;
+        $param['examine'] = 1;
+
+        // 添加栏目
+        $row = Db::table('zk_application')->insert($param);
+        if($row < 1){
+            return [200,'添加失败'];
+        }
+        return [200,true];
+    }
+
+
 
 }

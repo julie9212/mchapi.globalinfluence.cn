@@ -38,7 +38,7 @@ class Content extends Error
         $param = input('post.');
 
         $where['is_delete'] = 0;
-        $where['examine'] = 2;
+        // $where['examine'] = 2;
         $info = Db::table('zk_content')->where($where)->where('id',$param['id'])->field("id,title,source,writer,create_time,user_id,source,keyword,abstract,img_url,file_url,video_url")->find();
         $info['create_time'] = date( "Y-m-d H:i",$info['create_time']);
 
@@ -84,7 +84,7 @@ class Content extends Error
         // 添加栏目
         $row = Db::table('zk_meeting')->insert($param);
         if($row < 1){
-            return [200,'添加栏目失败'];
+            return [200,'添加失败'];
         }
         return [200,true];
     }
